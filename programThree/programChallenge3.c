@@ -9,7 +9,7 @@
 #include <arpa/inet.h>
 
 // define the necessary constants
-#define NTP_SERVER "pool.ntp.org"
+#define NTP_SERVER "44.31.46.123"
 #define NTP_PORT 123
 #define NTP_PACKET_SIZE 48
 #define NTP_TIMESTAMP_DELTA 2208988800ull
