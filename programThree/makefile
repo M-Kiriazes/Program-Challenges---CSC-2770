@@ -1,6 +1,5 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -pedantic -std=c99
-LDFLAGS = -lm
 
 SRCS = programChallenge3.c
 OBJS = $(SRCS:.c=.o)
@@ -13,3 +12,6 @@ $(TARGET): $(OBJS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<
+
+clean:
+	rm -f $(OBJS) $(TARGET)

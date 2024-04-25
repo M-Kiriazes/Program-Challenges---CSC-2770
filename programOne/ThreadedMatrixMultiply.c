@@ -10,7 +10,7 @@ int matrixA[MATRIX_SIZE][MATRIX_SIZE];
 int matrixB[MATRIX_SIZE][MATRIX_SIZE];
 int resultMatrix[MATRIX_SIZE][MATRIX_SIZE];
 
-// creation of calc variable and mut 
+// global variable to keep track of the number of calculations 
 int calcCount;          
 pthread_mutex_t mut;
 
@@ -27,9 +27,10 @@ void *multiply(void *arg) {
     // multiply the row of matrix A by the column of matrix B to get the element of the result matrix
     for (int i = 0; i < MATRIX_SIZE; i++) {
         resultMatrix[data->row][data->col] += matrixA[data->row][i] * matrixB[i][data->col];
-        pthread_mutex_lock(&mut); // lock mutex
+        // mutex lock and unlock
+        pthread_mutex_lock(&mut); 
         calcCount++;
-        pthread_mutex_unlock(&mut); // unlock mutex
+        pthread_mutex_unlock(&mut);
     }
    
     pthread_exit(NULL);

@@ -14,6 +14,7 @@ int main() {
     struct sockaddr_in serv_addr;
     char *hello = "GET / HTTP/1.1\nHost: localhost\n\n";
     char buffer[1024] = {0};
+    char method[16], protocol[16], url[1024];
     
     // create socket
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
