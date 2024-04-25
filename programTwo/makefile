@@ -1,13 +1,17 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -g
+CFLAGS = -Wall -pthread
 
-all: http_client http_server
+SRCS = HTTP_Client.c HTTP_Server.c
+OBJS = $(SRCS:.c=.o)
+TARGET = HTTP_Client HTTP_Server
 
-http_client: http_client.c
-	$(CC) $(CFLAGS) -o http_client http_client.c
+all: $(TARGET)
 
-http_server: http_server.c
-	$(CC) $(CFLAGS) -o http_server http_server.c
+$(TARGET): $(OBJS)
+    $(CC) $(CFLAGS) $(OBJS) -o $(TARGET)
+
+%.o: %.c
+    $(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f http_client http_server
+    rm -f $(OBJS) $(TARGET)
