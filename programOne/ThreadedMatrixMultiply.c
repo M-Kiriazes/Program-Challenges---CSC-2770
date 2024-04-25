@@ -10,19 +10,21 @@ int matrixA[MATRIX_SIZE][MATRIX_SIZE];
 int matrixB[MATRIX_SIZE][MATRIX_SIZE];
 int resultMatrix[MATRIX_SIZE][MATRIX_SIZE];
 
-
-int calcCount;          //creation of calc variable and mut 
+// creation of calc variable and mut 
+int calcCount;          
 pthread_mutex_t mut;
 
-
+// structure for thread data
 typedef struct {
     int row;
     int col;
 } thread_data_t;
 
+// function to multiply matrices
 void *multiply(void *arg) {
     thread_data_t *data = (thread_data_t *)arg;
 
+    // multiply the row of matrix A by the column of matrix B to get the element of the result matrix
     for (int i = 0; i < MATRIX_SIZE; i++) {
         resultMatrix[data->row][data->col] += matrixA[data->row][i] * matrixB[i][data->col];
         pthread_mutex_lock(&mut); // lock mutex
@@ -33,12 +35,13 @@ void *multiply(void *arg) {
     pthread_exit(NULL);
 }
 
+// main function
 int main() {
     pthread_t threads[NUM_THREADS];
     thread_data_t thread_data[NUM_THREADS];
     pthread_mutex_init(&mut, 0); //mutex initialization
 
-    // Initialize matrices A and B
+    // initialize matrices A and B
     for (int i = 0; i < MATRIX_SIZE; i++) {
         for (int j = 0; j < MATRIX_SIZE; j++) {
             matrixA[i][j] = rand() % 10;
@@ -46,7 +49,7 @@ int main() {
         }
     }
 
-    // Create threads to compute the result matrix
+    // create threads to compute the result matrix
     int thread_count = 0;
     for (int i = 0; i < MATRIX_SIZE; i++) {
         for (int j = 0; j < MATRIX_SIZE; j++) {
@@ -60,12 +63,12 @@ int main() {
         }
     }
 
-    // Wait for all threads to finish
+    // wait for all threads to finish
     for (int i = 0; i < NUM_THREADS; i++) {
         pthread_join(threads[i], NULL);
     }
 
-    // Print the result matrix
+    // print the result matrix
     printf("Result Matrix:\n");
     for (int i = 0; i < MATRIX_SIZE; i++) {
         for (int j = 0; j < MATRIX_SIZE; j++) {
@@ -74,9 +77,11 @@ int main() {
         printf("\n");
     }
 
+    // print the calculation count
     printf( "Calculation Count: ");
     printf( "%d", calcCount);
     printf("\n");
 
+    // destroy mutex
     return 0;
 }
